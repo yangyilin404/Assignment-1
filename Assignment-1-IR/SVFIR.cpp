@@ -1,10 +1,11 @@
-/**
- * SVFIR.cpp
- * @author kisslune
- */
-
 #include "Graphs/SVFG.h"
+#include "Graphs/CallGraph.h"
 #include "SVF-LLVM/SVFIRBuilder.h"
+
+#include <cassert>
+#include <iostream>
+#include <string>
+#include <vector>
 
 using namespace SVF;
 using namespace llvm;
@@ -12,33 +13,48 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    int arg_num = 0;
-    int extraArgc = 4;
-    char** arg_value = new char*[argc + extraArgc];
-    for (; arg_num < argc; ++arg_num) {
-        arg_value[arg_num] = argv[arg_num];
+    if (argc < 2)
+    {
+        cerr << "Usage: " << argv[0] << " <input.ll or input.bc>" << endl;
+        return 1;
     }
-    std::vector<std::string> moduleNameVec;
 
-    int orgArgNum = arg_num;
-    arg_value[arg_num++] = (char*)"-model-arrays=true";
-    arg_value[arg_num++] = (char*)"-pre-field-sensitive=false";
-    arg_value[arg_num++] = (char*)"-model-consts=true";
-    arg_value[arg_num++] = (char*)"-stat=false";
-    assert(arg_num == (orgArgNum + extraArgc) && "more extra arguments? Change the value of extraArgc");
+    int arg_num = 0;
+    const int extraArgc = 4;
+    vector<char*> arg_value;
+    arg_value.reserve(argc + extraArgc);
 
-    moduleNameVec = OptionBase::parseOptions(arg_num, arg_value, "SVF IR", "[options] <input-bitcode...>");
+    for (; arg_num < argc; ++arg_num)
+    {
+        arg_value.push_back(argv[arg_num]);
+    }
+
+    const int orgArgNum = arg_num;
+    arg_value.push_back((char*)"-model-arrays=true");
+    arg_value.push_back((char*)"-pre-field-sensitive=false");
+    arg_value.push_back((char*)"-model-consts=true");
+    arg_value.push_back((char*)"-stat=false");
+
+    arg_num = static_cast<int>(arg_value.size());
+    assert(arg_num == orgArgNum + extraArgc);
+
+    vector<string> moduleNameVec = OptionBase::parseOptions(
+        arg_num, arg_value.data(), "SVF IR",
+        "[options] <input-bitcode...>");
 
     LLVMModuleSet::getLLVMModuleSet()->buildSVFModule(moduleNameVec);
 
-    // Instantiate an SVFIR builder
     SVFIRBuilder builder;
-    cout << "Generating SVFIR(PAG), call graph and ICFG ..." << endl;
+    cout << "Generating SVFIR(PAG), call graph and ICFG ..."
+         << endl;
 
-    // TODO: here, generate SVFIR(PAG), call graph and ICFG, and dump them to files
-    //@{
+    // Assignment 1 implementation.
+    SVFIR* pag = builder.build();
+    pag->dump("svfir");
+    const_cast<CallGraph*>(pag->getCallGraph())->dump("callgraph");
+    pag->getICFG()->dump("icfg");
 
-    //@}
-
+    cout << "Wrote svfir.dot, callgraph.dot and icfg.dot"
+         << endl;
     return 0;
 }

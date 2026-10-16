@@ -1,0 +1,31 @@
+digraph "ICFG" {
+	label="ICFG";
+
+	Node0x585df0dbeb00 [shape=record,color=purple,label="{GlobalICFGNode0\nCopyStmt: [Var1 \<-- Var0]  \nConstNullPtrValVar ID: 0\n ptr null \{ constant data \}\nAddrStmt: [Var10 \<-- Var11]  \nConstIntValVar ID: 10\n i32 1 \{ constant data \}\nAddrStmt: [Var29 \<-- Var30]  \nConstIntValVar ID: 29\n i32 0 \{ constant data \}\nAddrStmt: [Var4 \<-- Var5]  \nFunValVar ID: 4\nfoo\nAddrStmt: [Var16 \<-- Var17]  \nFunValVar ID: 16\nllvm.dbg.declare\nAddrStmt: [Var22 \<-- Var23]  \nFunValVar ID: 22\nmain}"];
+	Node0x585df0dbeb00 -> Node0x585df0d9ad20[style=solid];
+	Node0x585df0de4e70 [shape=record,color=yellow,label="{FunEntryICFGNode1 \{fun: foo\{ \"ln\": 1, \"file\": \"Test-Cases/example.c\" \}\}}"];
+	Node0x585df0de4e70 -> Node0x585df0d9b860[style=solid];
+	Node0x585df0dbf930 [shape=record,color=green,label="{FunExitICFGNode2 \{fun: foo\{ \"ln\": 1, \"fl\": \"Test-Cases/example.c\" \}\}\nPhiStmt: [Var6 \<-- ([Var14, ICFGNode8],)]  \nValVar ID: 15\n   ret i32 %3, !dbg !18 \{ \"ln\": 2, \"cl\": 5, \"fl\": \"Test-Cases/example.c\" \}|{<s0>0x585df0de3130}}"];
+	Node0x585df0dbf930:s0 -> Node0x585df0dcfaa0[style=solid,color=blue];
+	Node0x585df0d9ad20 [shape=record,color=yellow,label="{FunEntryICFGNode3 \{fun: main\{ \"ln\": 4, \"file\": \"Test-Cases/example.c\" \}\}}"];
+	Node0x585df0d9ad20 -> Node0x585df0e02c00[style=solid];
+	Node0x585df0db1e80 [shape=record,color=green,label="{FunExitICFGNode4 \{fun: main\{ \"ln\": 5, \"fl\": \"Test-Cases/example.c\" \}\}\nPhiStmt: [Var24 \<-- ([Var29, ICFGNode13],)]  \nValVar ID: 32\n   ret i32 0, !dbg !18 \{ \"ln\": 6, \"cl\": 1, \"fl\": \"Test-Cases/example.c\" \}}"];
+	Node0x585df0d9b860 [shape=record,color=black,label="{IntraICFGNode5 \{fun: foo\{ \"ln\": 1, \"fl\": \"Test-Cases/example.c\" \}\}\nAddrStmt: [Var8 \<-- Var9]  \nValVar ID: 8\n   %2 = alloca i32, align 4 \{ \"ln\": 1, \"fl\": \"Test-Cases/example.c\" \}}"];
+	Node0x585df0d9b860 -> Node0x585df0df7620[style=solid];
+	Node0x585df0df7620 [shape=record,color=black,label="{IntraICFGNode6 \{fun: foo\}\nStoreStmt: [Var8 \<-- Var7]  \nValVar ID: 12\n   store i32 %0, ptr %2, align 4 }"];
+	Node0x585df0df7620 -> Node0x585df0da3880[style=solid];
+	Node0x585df0da3880 [shape=record,color=black,label="{IntraICFGNode7 \{fun: foo\{ \"ln\": 2, \"cl\": 12, \"fl\": \"Test-Cases/example.c\" \}\}\nLoadStmt: [Var14 \<-- Var8]  \nValVar ID: 14\n   %3 = load i32, ptr %2, align 4, !dbg !17 \{ \"ln\": 2, \"cl\": 12, \"fl\": \"Test-Cases/example.c\" \}}"];
+	Node0x585df0da3880 -> Node0x585df0dd4660[style=solid];
+	Node0x585df0dd4660 [shape=record,color=black,label="{IntraICFGNode8 \{fun: foo\{ \"ln\": 2, \"cl\": 5, \"fl\": \"Test-Cases/example.c\" \}\}\n   ret i32 %3, !dbg !18 \{ \"ln\": 2, \"cl\": 5, \"fl\": \"Test-Cases/example.c\" \}}"];
+	Node0x585df0dd4660 -> Node0x585df0dbf930[style=solid];
+	Node0x585df0e02c00 [shape=record,color=black,label="{IntraICFGNode9 \{fun: main\{ \"ln\": 5, \"fl\": \"Test-Cases/example.c\" \}\}\nAddrStmt: [Var25 \<-- Var26]  \nValVar ID: 25\n   %1 = alloca i32, align 4 \{ \"ln\": 5, \"fl\": \"Test-Cases/example.c\" \}}"];
+	Node0x585df0e02c00 -> Node0x585df0de3130[style=solid];
+	Node0x585df0de3130 [shape=record,color=red,label="{CallICFGNode10 \{fun: main\{ \"ln\": 5, \"cl\": 10, \"fl\": \"Test-Cases/example.c\" \}\}\nCallPE: [Var7 \<-- Var29]  \nValVar ID: 28\n   %2 = call i32 @foo(i32 noundef 0), !dbg !17 \{ \"ln\": 5, \"cl\": 10, \"fl\": \"Test-Cases/example.c\" \}|{<s0>0x585df0de3130}}"];
+	Node0x585df0de3130:s0 -> Node0x585df0de4e70[style=solid,color=red];
+	Node0x585df0dcfaa0 [shape=record,color=blue,label="{RetICFGNode11 \{fun: main\{ \"ln\": 5, \"cl\": 10, \"fl\": \"Test-Cases/example.c\" \}\}\nRetPE: [Var28 \<-- Var6]  \nValVar ID: 28\n   %2 = call i32 @foo(i32 noundef 0), !dbg !17 \{ \"ln\": 5, \"cl\": 10, \"fl\": \"Test-Cases/example.c\" \}}"];
+	Node0x585df0dcfaa0 -> Node0x585df0e018b0[style=solid];
+	Node0x585df0e018b0 [shape=record,color=black,label="{IntraICFGNode12 \{fun: main\{ \"ln\": 5, \"cl\": 6, \"fl\": \"Test-Cases/example.c\" \}\}\nStoreStmt: [Var25 \<-- Var28]  \nValVar ID: 31\n   store i32 %2, ptr %1, align 4, !dbg !16 \{ \"ln\": 5, \"cl\": 6, \"fl\": \"Test-Cases/example.c\" \}}"];
+	Node0x585df0e018b0 -> Node0x585df0db2260[style=solid];
+	Node0x585df0db2260 [shape=record,color=black,label="{IntraICFGNode13 \{fun: main\{ \"ln\": 6, \"cl\": 1, \"fl\": \"Test-Cases/example.c\" \}\}\n   ret i32 0, !dbg !18 \{ \"ln\": 6, \"cl\": 1, \"fl\": \"Test-Cases/example.c\" \}}"];
+	Node0x585df0db2260 -> Node0x585df0db1e80[style=solid];
+}
